@@ -5,7 +5,7 @@
 
 - Need to find the "real" `find` command
 
-![](/img/winterwonderland.png)
+![](img/winterwonderland.png)
 
 ## 2. Cryokinetic Magic / Holly Evergreen
 
