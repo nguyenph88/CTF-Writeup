@@ -1,2 +1,2 @@
 # CTF-Writeup
-Repos for all CTF Writeups that I partiticpated in
+KringleCon 2018 - I did a few but not all
