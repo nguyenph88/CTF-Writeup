@@ -46,14 +46,14 @@ Escape_Key followed by  ":q"
 - Login and successfully upload the report.txt file.
 
 
-##5. AD Privilege Discovery
+## 5. AD Privilege Discovery
 
 - Run this command:
 ```curl -v --http2-prior-knowledge localhost:8080 -X POST -d "status=on"```
 - No idea how to solve Active Directory
 
 
-##6. Badge Manipulation
+## 6. Badge Manipulation
 
 - Explore `event.dump`
 - Will see `sparkle.redberry` and `minty.candycane`. minty.candycane is the right answer.
@@ -67,7 +67,7 @@ Escape_Key followed by  ":q"
 ```
 
 
-##7. HR Incident Response
+## 7. HR Incident Response
 
 - Use this with git:
 ```git log --pretty=oneline ```
