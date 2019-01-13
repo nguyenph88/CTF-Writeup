@@ -27,8 +27,7 @@ Escape_Key followed by  ":q"
 - Inject the server ip
 - Cat and explore the `onboard.db`
 - Search for "Chan" last name
-```
-# !?ScottChan48 Colorado WayLos Angeles900674017533509scottmchan90067@gmail.comS```
+``` !?ScottChan48 Colorado WayLos Angeles900674017533509scottmchan90067@gmail.comS```
 
 - So Scott is the First Name.
 - In CVS File, "Data Loss for Rainbow Teams" is  John McClane, that's it
@@ -43,7 +42,7 @@ Escape_Key followed by  ":q"
 
 ## 4. Data Repo Analysis
 
- - Using -u param, we got "directreindeerflatterystable". Use this combination: "report-upload"/"directreindeerflatterystable".
+- Using -u param, we got "directreindeerflatterystable". Use this combination: "report-upload"/"directreindeerflatterystable".
 - Login and successfully upload the report.txt file.
 
 
@@ -73,4 +72,3 @@ Escape_Key followed by  ":q"
 - Use this with git:
 ```git log --pretty=oneline ```
 - Here is the Pass: twinkletwinkletwinkle
-
