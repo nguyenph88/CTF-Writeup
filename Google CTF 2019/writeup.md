@@ -75,3 +75,24 @@ root@kali:/media/sf_CTFs/google/Satellite# tshark -nr osmium.pcapng  -Y 'frame c
 Username: brewtoot password: CTF{4efcc72090af28fd33a2118985541f92e793477f}      166.00 IS-19 2019/05/09 00:00:00       Swath 640km      Revisit capacity twice daily, anywhere Resolution panchromatic: 30cm multispectral: 1.2m        Daily acquisition capacity: 220,000km Remaining config data written to: https://docs.google.com/document/d/14eYPluD_pi3824GAFanS29tWdTcKxP_XUxx7e303-3E
 ```
 
+After this challenge is solved, you need to choose either to continue with "Home" or "Work" computer to continue.
+
+# Beginner's Quests - Home Computer
+
+![](img/homecomputer.png)
+
+We are provided with an NTFS file.
+
+Let's mount it using this command:
+
+`sudo mount family.ntfs /mnt`
+
+The folder will be accessible from `/dev/mnt`. Browsing through the folders we find a `credentials.txt` with the text:
+
+`I keep pictures of my credentials in extended attributes.`
+
+Using the `getfattr` will show the extended attrib of the file. According to this wiki for the technique: https://en.wikipedia.org/wiki/Extended_file_attributes
+
+`getfattr --only-values credentials.txt > text.png`
+
+![](img/flag.png)
