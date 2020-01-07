@@ -79,3 +79,4 @@ C3 - What was the first command executed by the attacker?
 Answer: `whoami`
 hint: `ParentProcessImage:/.+cookie_recipe.+/`
 
+![](img/graylog.png)
