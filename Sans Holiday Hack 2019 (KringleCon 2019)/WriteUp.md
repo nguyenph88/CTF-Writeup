@@ -1,4 +1,4 @@
-# Kringlecon 2018
+# Kringlecon 2019
 
 I participated in this but haven't done a lot as I i didn't have much time.
 
