@@ -18,3 +18,9 @@ Fuzz with ID in range
 ## REVERSING
 For simple string, use Immunity Debugger:
 `https://cramhack.com/2018/09/11/htbfind-the-easy-pass-using-immunity/`
+
+## APK extract
+Use JADX GUI which is a good tool
+
+## XSS
+Use fetch('...') to get the content from another site within the same domain (subdomains)
