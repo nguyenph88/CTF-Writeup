@@ -202,6 +202,9 @@ Now the secret is in:
 }
 ```
 
+Just use the tool to look around
+
+> MetaCTF{hippity_hoppity_through_the_cloud_we_hop}
 
 # Into the NETception
 
