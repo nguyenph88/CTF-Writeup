@@ -244,5 +244,17 @@ It will list the current directory of the folder. Now use make it `return (os.sy
 
 > MetaCTF{0h_no_we_g0t_ours3lves_into_4_pickl3}
 
+# Product Key Validation
 
+Set the breakpoint at main using gdb:
+
+`gdb keygen`
+
+`br main`
+
+then run it and jump to the create_key
+
+`jp create_key`
+
+We will get the list of trial key and full key. Kinda stuck here.
 
